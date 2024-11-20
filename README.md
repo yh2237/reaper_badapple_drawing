@@ -32,3 +32,12 @@ drawing.luaを選択して実行を押す。
 <br><br>
 高速でアイテムを表示するためにフレームデータをメモリに保存しています。メモリの空き容量が大丈夫か確認してください。（3分くらいの映像で約5MBくらい）
 <h1>ライセンス</h1>
+MITライセンスで公開しています。クレジット表記は不要ですが、<s>こんなゴミをどっかで使う人はいないと思うけど</s>
+<br>
+ここのリンクか、クレジットを書いてくれるとめっちゃ喜びます。
+<br><br><br>念ためのURL<br>
+Node.jsホームページ : <a href="https://nodejs.org/en/">https://nodejs.org/en/</a>
+<br>
+FFmpegホームページ : <a href="https://www.ffmpeg.org/">https://www.ffmpeg.org/</a>
+<br>
+REAPERホームページ : <a href="https://www.reaper.fm/">https://www.reaper.fm/</a>
