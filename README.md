@@ -1,7 +1,8 @@
 <h1>reaper_badapple_drawing</h1>
 REAPERで空のアイテム表示させてmp4から変換した映像を流す物
 <br>
-<a href="https://www.nicovideo.jp/watch/sm44343220">実行例</a>
+<a href="https://www.youtube.com/watch?v=Cpo9RPN1bbQ">実行例（Youtube）</a>
+<a href="https://www.nicovideo.jp/watch/sm44343220">実行例（ニコニコ）</a>
 <br><br>
 <strong>ちなみにbadappleという名前が入っているが実行例がBadAppleなだけで描画するにはmp4形式の動画ファイルが必要。</strong>
 <h1>依存関係と実行方法</h1>
