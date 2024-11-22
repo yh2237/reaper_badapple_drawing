@@ -5,7 +5,7 @@ REAPERで空のアイテム表示させてmp4から変換した映像を流す�
 <br>
 <a href="https://www.nicovideo.jp/watch/sm44343220">実行例（ニコニコ）</a>
 <br><br>
-<strong>ちなみにbadappleという名前が入っているが実行例がBadAppleなだけで描画するにはmp4形式の動画ファイルが必要。</strong>
+<strong>ちなみにbadappleという名前が入っていますが実行例がBadAppleなだけで描画するにはmp4形式の動画ファイルが必要です。</strong>
 <h1>依存関係と実行方法</h1>
 <h3>必要なもの</h3>
 <br>Node.jsとffmpeg<br>
