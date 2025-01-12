@@ -11,7 +11,7 @@ mp4形式の動画ファイルを用意することでBadApple!!以外も描画�
 <ul>
   <li>Node.js</li>
   <li>ffmpeg</li>
-  <li><code>npm install</code>（fluent-ffmpegとsharp）</li>
+  <li><code>npm install</code>を実行（fluent-ffmpegとsharp）</li>
 </ul>
 <h3>実行方法</h3>
 <h4>付属のbadApple_dataを使う場合</h4>
