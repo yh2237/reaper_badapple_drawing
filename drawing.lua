@@ -1,4 +1,4 @@
-local frameDataDir = "C:\\example\\frames_data" --フレームデータのディレクトリのパス「\」は2つ付ける
+local frameDataDir = "C:\\example\\frames_data" --フレームデータのディレクトリの絶対パス
 local frameWidth = 33 --横サイズ（index.jsのサイズと同じにする）
 local frameHeight = 25 --縦サイズ（index.jsのサイズと同じにする）
 local totalFrames = 1000 --何フレーム分描画するのか（テキストファイルの個数分を書く）
