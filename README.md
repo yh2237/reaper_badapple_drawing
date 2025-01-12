@@ -15,7 +15,7 @@ mp4形式の動画ファイルを用意することでBadApple!!以外も描画�
 </ul>
 <h3>実行方法</h3>
 <h4>付属のbadApple_dataを使う場合</h4>
-badApple_data.zipを解凍。
+badApple_data.zipを解凍、
 drawing.luaを開いてbadApple_dataファイルの絶対パスを記入。
 <br><br>
 <a href="https://github.com/Phroneris/ReaperJPN-Phroneris">日本語化パッチ（森）</a>を導入している場合、
