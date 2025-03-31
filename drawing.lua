@@ -1,8 +1,13 @@
-local frameDataDir = "C:\\example\\frames_data" --フレームデータのディレクトリの絶対パス
-local frameHeight = 25 --縦サイズ（index.jsのサイズと同じにする）
-local totalFrames = 1000 --何フレーム分描画するのか（テキストファイルの個数分を書く）
+local frameDataDir = "C:\\example\\frames_data" -- フレームデータのディレクトリのパス
+local frameHeight = 25 -- 縦サイズ（index.jsのサイズと同じにする）
+local totalFrames = 4709 -- 何フレーム分描画するのか（テキストファイルの個数分を書く）
 
 function initializeTracks()
+    while reaper.CountTracks(0) > 0 do
+        local track = reaper.GetTrack(0, 0)
+        reaper.DeleteTrack(track)
+    end
+
     for i = 1, frameHeight do
         reaper.InsertTrackAtIndex(i - 1, false)
     end
@@ -27,15 +32,21 @@ end
 
 function processTrack(frameData, y)
     local track = reaper.GetTrack(0, y - 1)
-    if not track then return end
+    if not track then
+        return
+    end
 
     local line = frameData[y]
-    if not line then return end
+    if not line then
+        return
+    end
 
     local startX, endX = 1, 1
     while true do
         startX, endX = string.find(line, "1+", endX)
-        if not startX then break end
+        if not startX then
+            break
+        end
 
         local startPos = (startX - 1) * 0.1
         local itemLength = (endX - startX + 1) * 0.1
@@ -78,12 +89,16 @@ function processFrame(frameNumber)
     end
 
     local frameData = loadFrameData(frameNumber)
-    if not frameData then return end
+    if not frameData then
+        return
+    end
 
     clearItems()
     drawFrame(frameData)
 
-    reaper.defer(function() processFrame(frameNumber + 1) end)
+    reaper.defer(function()
+        processFrame(frameNumber + 1)
+    end)
 end
 
 function main()

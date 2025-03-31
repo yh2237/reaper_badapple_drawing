@@ -2,10 +2,12 @@ const fs = require("fs");
 const sharp = require("sharp");
 const ffmpeg = require("fluent-ffmpeg");
 
-const videoPath = "input.mp4"; //mp4のファイルパス
-const framesDir = "frames"; //リサイズしたpngファイルが入るディレクトリ名
+const videoPath = "m.mp4"; // mp4のファイルパス
+const framesDir = "frames"; // リサイズしたpngファイルが入るディレクトリ名
 const framesDataDir = "frames_data"; //出来たフレームデータが入るディレクトリ名
-const frameRate = 30; //フレームレート（30fpsでしか動作確認してないから他は知らん）
+const frameRate = 30; // フレームレート（30fpsでしか動作確認してないから他は知らん）
+const sizeX = 33; // 横サイズ
+const sizeY = 25; // 縦サイズ（drawing.luaの縦サイズと同じにする）
 
 if (!fs.existsSync(framesDir)) fs.mkdirSync(framesDir);
 if (!fs.existsSync(framesDataDir)) fs.mkdirSync(framesDataDir);
@@ -14,7 +16,7 @@ async function processFrame(imagePath, frameNumber) {
     try {
         const frameDataPath = `${framesDataDir}/frame_${frameNumber}.txt`;
         const { data, info } = await sharp(imagePath)
-            .resize(33, 25) //サイズ（drawing.luaの縦横サイズと同じにする）
+            .resize(sizeX, sizeY)
             .raw()
             .toBuffer({ resolveWithObject: true });
 
