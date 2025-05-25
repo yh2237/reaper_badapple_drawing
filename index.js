@@ -2,7 +2,7 @@ const fs = require("fs");
 const sharp = require("sharp");
 const ffmpeg = require("fluent-ffmpeg");
 
-const videoPath = "m.mp4"; // mp4のファイルパス
+const videoPath = "input.mp4"; // mp4のファイルパス
 const framesDir = "frames"; // リサイズしたpngファイルが入るディレクトリ名
 const framesDataDir = "frames_data"; //出来たフレームデータが入るディレクトリ名
 const frameRate = 30; // フレームレート（30fpsでしか動作確認してないから他は知らん）
