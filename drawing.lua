@@ -1,5 +1,5 @@
 local frameDataDir = "./frames_data" -- フレームデータのディレクトリのパス
-local frameHeight = 25 -- 縦サイズ（index.jsのサイズと同じにする）
+local frameHeight = 25 -- 縦サイズ（config.jsonのサイズと同じにする）
 local totalFrames = 4709 -- 何フレーム分描画するのか（テキストファイルの個数分を書く）
 
 function initializeTracks()
@@ -15,6 +15,9 @@ end
 
 function loadFrameData(frameNumber)
     local frameFilePath = frameDataDir .. "\\frame_" .. frameNumber .. ".txt"
+
+    reaper.ShowConsoleMsg("フレームを処理" .. frameFilePath .. "\n")
+
     local file = io.open(frameFilePath, "r")
     if not file then
         reaper.ShowConsoleMsg("エラー: フレームファイルを読み込めません: " .. frameFilePath .. "\n")

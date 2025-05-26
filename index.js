@@ -1,55 +1,55 @@
 const fs = require("fs");
-const sharp = require("sharp");
 const ffmpeg = require("fluent-ffmpeg");
+const processMonochromeFrame = require("./util/monochrome");
+const processColourFrame = require("./util/colour");
 
-const videoPath = "input.mp4"; // mp4のファイルパス
-const framesDir = "frames"; // リサイズしたpngファイルが入るディレクトリ名
-const framesDataDir = "frames_data"; //出来たフレームデータが入るディレクトリ名
-const frameRate = 30; // フレームレート（30fpsでしか動作確認してないから他は知らん）
-const sizeX = 33; // 横サイズ
-const sizeY = 25; // 縦サイズ（drawing.luaの縦サイズと同じにする）
+const configData = fs.readFileSync("config.json");
+const config = JSON.parse(configData);
+
+config.monochrome.processFrame = processMonochromeFrame;
+config.colour.processFrame = processColourFrame;
+
+const { videoPath, framesDir, frameRate, processMode } = config;
+const currentConfig = config[processMode];
+
+if (!currentConfig) {
+    console.error("無効な処理モードが指定されました。'monochrome' または 'colour' を指定してください。");
+    process.exit(1);
+}
 
 if (!fs.existsSync(framesDir)) fs.mkdirSync(framesDir);
-if (!fs.existsSync(framesDataDir)) fs.mkdirSync(framesDataDir);
+if (!fs.existsSync(currentConfig.framesDataDir)) fs.mkdirSync(currentConfig.framesDataDir);
 
-async function processFrame(imagePath, frameNumber) {
-    try {
-        const frameDataPath = `${framesDataDir}/frame_${frameNumber}.txt`;
-        const { data, info } = await sharp(imagePath)
-            .resize(sizeX, sizeY)
-            .raw()
-            .toBuffer({ resolveWithObject: true });
-
-        let frameData = "";
-        for (let y = 0; y < info.height; y++) {
-            for (let x = 0; x < info.width; x++) {
-                const pixelIndex = (y * info.width + x) * info.channels;
-                const brightness =
-                    0.2126 * data[pixelIndex] +
-                    0.7152 * data[pixelIndex + 1] +
-                    0.0722 * data[pixelIndex + 2];
-                frameData += brightness > 128 ? "0" : "1";
-            }
-            frameData += "\n";
-        }
-
-        fs.writeFileSync(frameDataPath, frameData);
-        console.log(`フレーム${frameNumber}を処理`);
-    } catch (error) {
-        console.error(`フレーム処理エラー${frameNumber}:`, error);
+ffmpeg.ffprobe(videoPath, (err, metadata) => {
+    if (err) {
+        console.error(err);
+        return;
     }
-}
+    const duration = metadata.format.duration;
+    const videoStream = metadata.streams.find(stream => stream.codec_type === 'video');
+    const fps = eval(videoStream.r_frame_rate);
+    const totalFrames = Math.floor(duration * fps);
+    console.log(`動画の全フレーム数: ${totalFrames}`);
+});
 
 ffmpeg(videoPath)
     .output(`${framesDir}/frame_%04d.png`)
-    .outputOptions(["-vf", `fps=${frameRate}`])
+    .outputOptions([`-vf fps=${frameRate}`])
     .on("end", async () => {
-        console.log("フレームの抽出が完了しました！データを生成します");
+        console.log("フレームの抽出が完了しました！");
 
         const frameFiles = fs.readdirSync(framesDir).sort();
-        await Promise.all(
-            frameFiles.map((file, i) => processFrame(`${framesDir}/${file}`, i + 1))
-        );
+
+        for (let i = 0; i < frameFiles.length; i++) {
+            const file = frameFiles[i];
+            const frameNumber = i + 1;
+            try {
+                await currentConfig.processFrame(`${framesDir}/${file}`, frameNumber, currentConfig);
+                console.log(`フレーム${frameNumber}を処理`);
+            } catch (error) {
+                console.error(`フレーム処理エラー${frameNumber}:`, error);
+            }
+        }
 
         console.log("すべてのフレームデータが生成されました！");
     })
